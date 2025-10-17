@@ -1,0 +1,47 @@
+﻿@model List<VirtualEventTicketing.Models.Purchase>
+
+@{
+    ViewData["Title"] = "My Purchases";
+}
+
+<h1>My Purchases</h1>
+
+@if (Model == null || Model.Count == 0)
+{
+    <div class="alert alert-info">
+        <p>You haven't purchased any tickets yet.</p>
+        <a href="/Events" class="btn btn-primary">Browse Events</a>
+    </div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Confirmation ID</th>
+            <th>Guest Name</th>
+            <th>Guest Email</th>
+            <th>Purchase Date</th>
+            <th>Total Cost</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var purchase in Model)
+        {
+            <tr>
+                <td>#@purchase.Id</td>
+                <td>@purchase.GuestName</td>
+                <td>@purchase.GuestEmail</td>
+                <td>@purchase.PurchaseDate.ToString("MMM dd, yyyy HH:mm")</td>
+                <td>$@purchase.TotalCost.ToString("F2")</td>
+                <td>
+                    <a href="/Purchases/Details/@purchase.Id" class="btn btn-sm btn-info">View Details</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+<a href="/Events" class="btn btn-secondary mt-3">Back to Events</a>

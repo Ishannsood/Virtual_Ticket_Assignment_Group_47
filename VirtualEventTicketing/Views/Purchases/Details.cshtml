@@ -1,0 +1,48 @@
+﻿@model VirtualEventTicketing.Models.ViewModels.PurchaseConfirmationViewModel
+
+@{
+    ViewData["Title"] = "Purchase Details";
+}
+
+<h1>Purchase Details</h1>
+
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <h3>Confirmation #@Model.Purchase.Id</h3>
+    </div>
+    <div class="card-body">
+        <p><strong>Guest Name:</strong> @Model.Purchase.GuestName</p>
+        <p><strong>Guest Email:</strong> @Model.Purchase.GuestEmail</p>
+        <p><strong>Purchase Date:</strong> @Model.Purchase.PurchaseDate.ToString("MMM dd, yyyy HH:mm")</p>
+    </div>
+</div>
+
+<h4>Tickets Purchased</h4>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Event</th>
+        <th>Quantity</th>
+        <th>Price per Ticket</th>
+        <th>Subtotal</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Items)
+    {
+        <tr>
+            <td>@item.Event.Title</td>
+            <td>@item.Quantity</td>
+            <td>$@item.PricePerTicket.ToString("F2")</td>
+            <td>$@(item.Quantity * item.PricePerTicket).ToString("F2")</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div class="alert alert-info">
+    <h5>Total Cost: $@Model.Purchase.TotalCost.ToString("F2")</h5>
+</div>
+
+<a href="/Purchases/List" class="btn btn-secondary">Back to Purchases</a>
+<a href="/Events" class="btn btn-primary">Browse More Events</a>

@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Welcome to Virtual Event Ticketing";
+}
+
+<div class="hero-section">
+    <h1>Welcome to Virtual Event Ticketing</h1>
+    <p>Discover and book amazing virtual events</p>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Events</h5>
+                    <p class="card-text display-4">@ViewBag.TotalEvents</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Categories</h5>
+                    <p class="card-text display-4">@ViewBag.TotalCategories</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Low Stock Events</h5>
+                    <p class="card-text display-4 text-warning">@ViewBag.LowStockEvents</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <a href="/Events" class="btn btn-primary btn-lg">Browse Events</a>
+        <a href="/Events/Create" class="btn btn-success btn-lg">Create Event</a>
+    </div>
+</div>

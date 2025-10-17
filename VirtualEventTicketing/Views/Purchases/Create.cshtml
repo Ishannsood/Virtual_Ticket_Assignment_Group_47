@@ -1,0 +1,74 @@
+﻿@model VirtualEventTicketing.Models.ViewModels.CreatePurchaseViewModel
+
+@{
+ViewData["Title"] = "Purchase Tickets";
+}
+
+<h1>Purchase Tickets for @Model.Event.Title</h1>
+
+<div class="alert alert-info">
+    <p><strong>Event:</strong> @Model.Event.Title</p>
+    <p><strong>Date:</strong> @Model.Event.EventDateTime.ToString("MMM dd, yyyy HH:mm")</p>
+    <p><strong>Price per ticket:</strong> $@Model.Event.TicketPrice.ToString("F2")</p>
+    <p><strong>Available tickets:</strong> @Model.Event.AvailableTickets</p>
+</div>
+
+@if (!ViewData.ModelState.IsValid)
+{
+<div class="alert alert-danger">
+    <h4>Please fix the following errors:</h4>
+    <ul>
+        @foreach (var modelState in ViewData.ModelState.Values)
+        {
+        @foreach (var error in modelState.Errors)
+        {
+        <li>@error.ErrorMessage</li>
+        }
+        }
+    </ul>
+</div>
+}
+
+<form method="post" asp-action="Create">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="EventId" />
+
+    <div class="form-group">
+        <label asp-for="GuestName">Your Name</label>
+        <input asp-for="GuestName" class="form-control" placeholder="Enter your full name" required />
+        <span asp-validation-for="GuestName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="GuestEmail">Your Email</label>
+        <input asp-for="GuestEmail" type="email" class="form-control" placeholder="Enter your email" required />
+        <span asp-validation-for="GuestEmail" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Quantity">Number of Tickets</label>
+        <input asp-for="Quantity" type="number" min="1" max="@Model.Event.AvailableTickets" class="form-control" value="1" required />
+        <span asp-validation-for="Quantity" class="text-danger"></span>
+    </div>
+
+    <div class="alert alert-warning">
+        <p><strong>Total Cost:</strong> <span id="totalCost">$@Model.Event.TicketPrice.ToString("F2")</span></p>
+    </div>
+
+    <button type="submit" class="btn btn-success">Proceed to Checkout</button>
+    <a href="/Events" class="btn btn-secondary">Cancel</a>
+</form>
+
+<script>
+    const quantity = document.querySelector('input[name="Quantity"]');
+    const pricePerTicket = @Model.Event.TicketPrice;
+
+    quantity.addEventListener('change', function() {
+        const total = (this.value * pricePerTicket).toFixed(2);
+        document.getElementById('totalCost').textContent = '$' + total;
+    });
+
+    // Initial calculation
+    quantity.dispatchEvent(new Event('change'));
+</script>
